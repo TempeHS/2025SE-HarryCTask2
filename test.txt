@@ -1,0 +1,24 @@
+# Extracts all of the type input features to be maniplated
+types = data_frame['type'].to_list()
+
+# Choosing options for the type of properties
+house = ['House', 'Villa', 'Townhouse', 'Duplex', 'Terrace']
+apartments = ['Apartment / Unit / Flat', 'Studio']
+
+# Creating a new list to store the new types
+new_types = []
+
+# Looping through the types and checking if they are in the house or apartment list
+# Property types do not include land as does not fit into the scope
+for _ in types:
+    if _ in house:
+        new_types.append('House')
+    elif _ in apartments:
+        new_types.append('Apartment')
+    else:
+        new_types.append(None) # Rows that aren't houses or apartments are classified as None and are deleted later
+
+
+data_frame['type'] = new_types
+
+data_frame.dropna(subset=['type'], inplace=True)
