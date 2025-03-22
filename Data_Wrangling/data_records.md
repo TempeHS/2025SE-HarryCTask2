@@ -17,8 +17,7 @@ When the ML model goes into opperation it will be provided with **new** data to 
 
 ## Engineered Features
 
-| Data   | Engineering                                                                      |
-| ------ | -------------------------------------------------------------------------------- |
-| Risk   | `data_frame['Risk'] = data_frame['BMI'] * data_frame['Age']`                     |
-| Risk % | `data_frame['Risk%'] = (data_frame['Risk'] / data_frame['Risk'].max()).round(2)` |
-| FHRisk |                                                                                  |
+| Data      | Engineering                                                                         |
+| --------- | ----------------------------------------------------------------------------------- |
+| tot_rooms | `data_frame['tot_rooms'] = data_frame['num_bed'] + data_frame['num_bath']`          |
+| prop_cbd  | `data_frame['prop_cbd'] = (data_frame['property_size'] * data_frame['km_from_cbd']` |
