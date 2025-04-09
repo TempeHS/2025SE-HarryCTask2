@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sydney House Price Predictor</title>
+    <meta name="theme-color" content="" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="static/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <h1 class="display-4">Sydney House Price Predictor</h1>
+      </div>
+      <form method="POST" action="/" class="form">
+        <div class="mb-3">
+          <label for="num_bed" class="form-label">Number of Bedrooms</label>
+          <input
+            type="number"
+            class="form-control"
+            id="num_bed"
+            name="num_bed"
+            min="1"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="num_bath" class="form-label">Number of Bathrooms</label>
+          <input
+            type="number"
+            class="form-control"
+            id="num_bath"
+            name="num_bath"
+            min="1"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="property_size" class="form-label"
+            >Property Size (sqm)</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            id="property_size"
+            name="property_size"
+            min="40"
+            max="1200"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="suburb_median_income" class="form-label"
+            >Suburb Median Annual Income</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            id="suburb_median_income"
+            name="suburb_median_income"
+            min="10000"
+            max="500000"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="suburb" class="form-label">Suburb</label>
+          <input
+            type="text"
+            class="form-control"
+            id="suburb"
+            name="suburb"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="date" class="form-label">Date of Sale</label>
+          <input
+            type="date"
+            class="form-control"
+            id="date"
+            name="date"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="num_parking" class="form-label"
+            >Number of Parking Spaces</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            id="num_parking"
+            name="num_parking"
+            min="0"
+            required
+          />
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="save_to_db"
+            name="save_to_db"
+          />
+          <label class="form-check-label" for="save_to_db">
+            Allow this info to bne saved to the database
+          </label>
+        </div>
+      </br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      {% if success %}
+      <div class="alert alert-success mt-3" role="alert" id="successMessage">
+        <h4>Predicted House Price:</h4>
+        <p>{{ prediction.prediction }}</p>
+      </div>
+      {% endif %} {% if error %}
+      <div class="alert alert-danger mt-3" role="alert" id="errorMessage">
+        <h4>Error:</h4>
+        <p>Please follow the guidelines and input a Sydney Suburb</p>
+      </div>
+      {% endif %}
+    </div>
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
