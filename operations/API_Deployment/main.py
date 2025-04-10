@@ -23,9 +23,6 @@ csrf = CSRFProtect(app)
 app_header = {"Authorisation": "4L50v92nOgcDCYUM"}
 app.secret_key = b"_53oi3uriq9pifpff;apl"
 
-model = Model(model=None)
-model.load_model("../../Model_Testing_and_Validation/LinearRegression_Models/A/A_MV_model_v9.sav")
-
 @app.route("/", methods=["POST", "GET"])
 def index():
     if request.method == "POST":
