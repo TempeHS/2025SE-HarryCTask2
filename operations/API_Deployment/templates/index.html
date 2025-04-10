@@ -18,6 +18,7 @@
         <h1 class="display-4">Sydney House Price Predictor</h1>
       </div>
       <form method="POST" action="/" class="form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <div class="mb-3">
           <label for="num_bed" class="form-label">Number of Bedrooms</label>
           <input
@@ -26,6 +27,7 @@
             id="num_bed"
             name="num_bed"
             min="1"
+            max="50"
             required
           />
         </div>
@@ -37,6 +39,7 @@
             id="num_bath"
             name="num_bath"
             min="1"
+            max="50"
             required
           />
         </div>
@@ -109,7 +112,7 @@
             name="save_to_db"
           />
           <label class="form-check-label" for="save_to_db">
-            Allow this info to bne saved to the database
+            Allow this info to be saved to the database for future training and testing
           </label>
         </div>
       </br>
@@ -123,7 +126,7 @@
       {% endif %} {% if error %}
       <div class="alert alert-danger mt-3" role="alert" id="errorMessage">
         <h4>Error:</h4>
-        <p>Please follow the guidelines and input a Sydney Suburb</p>
+        <p>{{message}}</p>
       </div>
       {% endif %}
     </div>

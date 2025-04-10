@@ -17,7 +17,9 @@ When the ML model goes into opperation it will be provided with **new** data to 
 
 ## Engineered Features
 
-| Data      | Engineering                                                                         |
-| --------- | ----------------------------------------------------------------------------------- |
-| tot_rooms | `data_frame['tot_rooms'] = data_frame['num_bed'] + data_frame['num_bath']`          |
-| prop_cbd  | `data_frame['prop_cbd'] = (data_frame['property_size'] * data_frame['km_from_cbd']` |
+| Data        | Engineering                                                                                    |
+| ----------- | ---------------------------------------------------------------------------------------------- |
+| tot_rooms   | `data_frame['tot_rooms'] = data_frame['num_bed'] + data_frame['num_bath']`                     |
+| value_score | `data_frame['value_score'] = data_frame['property_size'] * np.exp(-data_frame['km_from_cbd'])` |
+
+The lack of engineered features is because there was already a sufficient amount of features, that allowed for sound predictions. Adding more would increase processing time and cause wastage.

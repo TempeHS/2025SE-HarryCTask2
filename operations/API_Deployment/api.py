@@ -6,7 +6,7 @@ from flask_limiter.util import get_remote_address
 import logging
 from model_prediction import Model
 
-# Add Auth Key
+auth_key = "4L50v92nOgcDCYUM"
 
 api = Flask(__name__)
 cors = CORS(api)
@@ -19,22 +19,25 @@ limiter = Limiter(
 )
 
 Model = Model(model=None)
-Model.load_model("../Model_Testing_and_Validation/LinearRegression_Models/A/A_MV_model_v9.sav")
+Model.load_model("../../Model_Testing_and_Validation/LinearRegression_Models/A/A_MV_model_v9.sav")
 
 
-#logging.basicConfig(
-    #filename="api_security_log.log",
-    #encoding="utf-8",
-    #level=logging.DEBUG,
-    #format="%(asctime)s %(message)s",
-#)
+logging.basicConfig(
+    filename="api_security_log.log",
+    encoding="utf-8",
+    level=logging.DEBUG,
+    format="%(asctime)s %(message)s",
+)
 
 @api.route("/get_prediction", methods=["GET","POST"])
 @limiter.limit("3/second", override_defaults=False)
 def post():
-    data = request.get_json()
-    response = Model.predict(data)
-    return response, 200
+    if request.headers.get("Authorisation") == auth_key:
+        data = request.get_json()
+        response = Model.predict(data)
+        return response, 200
+    else:
+        return {"error": "Unauthorized"}, 401
 
 
 if __name__ == "__main__":

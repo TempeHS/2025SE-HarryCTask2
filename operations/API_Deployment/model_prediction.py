@@ -59,7 +59,6 @@ class Model:
         try:
             with open(model_path, "rb") as file:
                 self.model = pickle.load(file)
-            print("Model loaded successfully.")
             return self.model
         except Exception as e:
             print(f"Error loading model: {e}")
@@ -126,33 +125,22 @@ class Model:
         try:
             # Validate the input data against the schema
             validate(instance=data, schema=schema)
-            
-            data["suburb_median_income"] = data["suburb_median_income"] / 2
 
+            # Process all the required features
             data["property_size"] = self.scale_property_size(data["property_size"])
-            
-            
-            # Compute total rooms
+            # The original database had oddly low values for suburb median income, that looked half of what they should be, though based off my obersvations, I decided to half the suburb median income
+            data["suburb_median_income"] = data["suburb_median_income"] / 2
             data["tot_rooms"] = self.tot_rooms(data["num_bed"], data["num_bath"])
-            
             data["suburb_lat"] = self.get_suburb_lat(data["suburb"])
-
             data["suburb_lng"] = self.get_suburb_lng(data["suburb"])
-            
-            # Convert date to float
             data["ds_float"] = self.ds_float(data["date"])
-
-            
-            del data["date"]  # Remove the original date field
-            
+            del data["date"] 
             data["km_from_cbd"] = self.scale_km_from_cbd(data["suburb_lat"], data["suburb_lng"])
-
-
             data["value_score"] = self.value_score(data["property_size"], data["km_from_cbd"])
 
             # Log the processed data
             mx_col = ["num_bed", "num_bath", "property_size", "value_score", "tot_rooms", "suburb_median_income", "suburb_lat", "suburb_lng", "km_from_cbd", "ds_float", "num_parking"]
-            ordered_data = {col: data[col] for col in mx_col if col in data}
+            ordered_data = {col: data[col] for col in mx_col if col in data} # Reorder the data to match the model's input, without this it changes the order
             return ordered_data
         except Exception as e:
             print(f"Error during data processing: {e}")
@@ -167,7 +155,7 @@ class Model:
             prediction = self.model.predict(features)
             # Formats prediction so it can be passed onto the front end
             formatted_prediction = f"${int(round(prediction[0])):,}"
-            return json.dumps({"prediction": formatted_prediction}) # Not using JSNOIFY as it was causing issues with the front end 
+            return jsonify({"prediction": formatted_prediction}) # Not using JSNOIFY as it was causing issues with the front end 
         except Exception as e:
             print(f"Error during prediction: {e}")
             return {"error": str(e)}, 500
